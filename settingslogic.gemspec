@@ -3,11 +3,11 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "dc-settingslogic"
-  s.version     = "2.0.9"
+  s.version     = "2.1.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Ben Johnson", "Jeong, Jiung"]
   s.email       = ["bjohnson@binarylogic.com", "ethernuiel@sanultari.com"]
-  s.homepage    = "http://github.com/binarylogic/settingslogic"
+  s.homepage    = "http://github.com/sanultari/settingslogic"
   s.summary     = %q{A simple and straightforward settings solution that uses an ERB enabled YAML file and a singleton design pattern.}
   s.description = %q{A simple and straightforward settings solution that uses an ERB enabled YAML file and a singleton design pattern.}
 
