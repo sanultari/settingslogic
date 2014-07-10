@@ -22,7 +22,8 @@ class Settingslogic < Hash
     end
 
     def source(value = nil)
-      @source ||= value
+      @source ||= []
+      @source << value
     end
 
     def namespace(value = nil)
@@ -99,14 +100,21 @@ class Settingslogic < Hash
     when Hash
       self.replace hash_or_file
     else
-      file_contents = open(hash_or_file).read
-      hash = file_contents.empty? ? {} : YAML.load(ERB.new(file_contents).result).to_hash
+      hash = {}
+      files = hash_or_file.reject { |file| file.nil? }
+      files.each do |file|
+        next unless File.exist? file
+
+        file_contents = open(file).read
+        single_hash = file_contents.empty? ? {} : YAML.load(ERB.new(file_contents).result).to_hash
+        hash.merge! single_hash
+      end
       if self.class.namespace
-        hash = hash[self.class.namespace] or return missing_key("Missing setting '#{self.class.namespace}' in #{hash_or_file}")
+        hash = hash[self.class.namespace] or return missing_key("Missing setting '#{self.class.namespace}' in #{files.join(', ')}")
       end
       self.replace hash
     end
-    @section = section || self.class.source  # so end of error says "in application.yml"
+    @section = section || self.class.source.reject { |file| file.nil? }.join(', ')  # so end of error says "in application.yml"
     create_accessors!
   end
 

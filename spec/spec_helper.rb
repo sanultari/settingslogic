@@ -1,12 +1,12 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rspec'
 require 'settingslogic'
-require 'settings'
-require 'settings2'
-require 'settings3'
-require 'settings4'
-require 'settings_empty'
+require_relative 'settings'
+require_relative 'settings2'
+require_relative 'settings3'
+require_relative 'settings4'
+require_relative 'multi_source_config'
+require_relative 'settings_empty'
 
 # Needed to test Settings3
 Object.send :define_method, 'collides' do
