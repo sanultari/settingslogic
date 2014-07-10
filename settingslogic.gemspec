@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "dc-settingslogic"
-  s.version     = "2.1.1"
+  s.version     = "2.1.2-pre1"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Ben Johnson", "Jeong, Jiung"]
   s.email       = ["bjohnson@binarylogic.com", "ethernuiel@sanultari.com"]
