@@ -175,6 +175,10 @@ describe "Settingslogic" do
     expect(MultiSourceConfig.name).to eq("test")
   end
 
+  it "should handle empty file having comments" do
+    expect(CommentedConfig.keys).to be_empty
+  end
+
   describe "#to_hash" do
     it "should return a new instance of a Hash object" do
       expect(Settings.to_hash).to be_a Hash

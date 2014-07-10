@@ -106,7 +106,8 @@ class Settingslogic < Hash
         next unless File.exist? file
 
         file_contents = open(file).read
-        single_hash = file_contents.empty? ? {} : YAML.load(ERB.new(file_contents).result).to_hash
+        raw_result = YAML.load(ERB.new(file_contents).result)
+        single_hash = raw_result ? raw_result : {}
         hash.merge! single_hash
       end
       if self.class.namespace
