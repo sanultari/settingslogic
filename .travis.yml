@@ -6,3 +6,4 @@ rvm:
   - 2.1.1
   - ruby-head
   - jruby-19mode
+before_install: bundle update
