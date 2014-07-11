@@ -1,4 +1,7 @@
 = Settingslogic
+{<img src="https://badge.fury.io/rb/dc-settingslogic.svg" alt="Gem Version" />}[http://badge.fury.io/rb/dc-settingslogic]
+{<img src="https://codeclimate.com/github/sanultari/settingslogic.png" />}[https://codeclimate.com/github/sanultari/settingslogic]
+{<img src="https://travis-ci.org/sanultari/settingslogic.svg?branch=develop" alt="Build Status" />}[https://travis-ci.org/sanultari/settingslogic]
 
 Settingslogic is a simple configuration / settings solution that uses an ERB enabled YAML file. It has been great for
 our apps, maybe you will enjoy it too.  Settingslogic works with Rails, Sinatra, or any Ruby project.
