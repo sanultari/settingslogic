@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dc-settingslogic (2.1.0)
+    dc-settingslogic (2.1.2.pre.pre1)
 
 GEM
   remote: https://rubygems.org/

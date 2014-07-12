@@ -93,29 +93,13 @@ class Settingslogic < Hash
   # if you are using this in rails. If you pass a string it should be an absolute path to your settings file.
   # Then you can pass a hash, and it just allows you to access the hash via methods.
   def initialize(hash_or_file = self.class.source, section = nil)
-    #puts "new! #{hash_or_file}"
-    case hash_or_file
-    when nil
-      raise Errno::ENOENT, "No file specified as Settingslogic source"
-    when Hash
-      self.replace hash_or_file
-    else
-      hash = {}
-      files = hash_or_file.reject { |file| file.nil? }
-      files.each do |file|
-        next unless File.exist? file
+    raise Errno::ENOENT, "No file specified as Settingslogic source" if hash_or_file.nil?
 
-        file_contents = open(file).read
-        raw_result = YAML.load(ERB.new(file_contents).result)
-        single_hash = raw_result ? raw_result : {}
-        hash.merge! single_hash
-      end
-      if self.class.namespace
-        hash = hash[self.class.namespace] or return missing_key("Missing setting '#{self.class.namespace}' in #{files.join(', ')}")
-      end
-      self.replace hash
-    end
-    @section = section || self.class.source.reject { |file| file.nil? }.join(', ')  # so end of error says "in application.yml"
+    hash = hash_or_file
+    hash = process_files(hash_or_file) unless hash.is_a? Hash
+    self.replace hash
+
+    @section = section || default_session_name  # so end of error says "in application.yml"
     create_accessors!
   end
 
@@ -193,5 +177,36 @@ class Settingslogic < Hash
     return nil if self.class.suppress_errors
 
     raise MissingSetting, msg
+  end
+
+  private
+  def process_files(hash_or_file)
+    files = hash_or_file.reject { |file| file.nil? }
+    hash = load_from files
+    if self.class.namespace
+      hash = hash[self.class.namespace] or return missing_key("Missing setting '#{self.class.namespace}' in #{files.join(', ')}")
+    end
+
+    hash
+  end
+
+  def load_from(files)
+    hash = {}
+    files.each do |file|
+      merge_config hash, file if File.exist? file
+    end
+
+    hash
+  end
+
+  def merge_config(hash, file_path)
+    file_contents = open(file_path).read
+    raw_result = YAML.load(ERB.new(file_contents).result)
+    single_hash = raw_result ? raw_result : {}
+    hash.merge! single_hash
+  end
+
+  def default_session_name
+    self.class.source.reject { |file| file.nil? }.join(', ')
   end
 end
